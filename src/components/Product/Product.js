@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import Button from '../Button/Button';
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
+import shortid from 'shortid';
 
 const Product = ({ colors, sizes, name, title, basePrice }) => {
 
@@ -30,17 +31,19 @@ const Product = ({ colors, sizes, name, title, basePrice }) => {
           <div className={styles.sizes}>
             <h3 className={styles.optionLabel}>{currentSize}</h3>
             <ul className={styles.choices}>
-              <li><button type="button" className={styles.active}>S</button></li>
-              <li><button type="button">M</button></li>
-              <li><button type="button">L</button></li>
-              <li><button type="button">XL</button></li>
+
+              {sizes.map(size =>
+                <li key={shortid.generate()} value={size}>
+                  <button type="button"
+                    className={clsx(size.name === currentSize && styles.active)}>{size.name}</button></li>
+              )}
             </ul>
           </div>
           <div className={styles.colors}>
             <h3 className={styles.optionLabel}>Colors</h3>
             <ul className={styles.choices}>
               {colors.map(color =>
-                <li key={color}>
+                <li key={shortid.generate()} value={color}>
                   <button type="button"
                     className={clsx(prepareColorClassName(color), color === currentColor && styles.active)} />
                 </li>

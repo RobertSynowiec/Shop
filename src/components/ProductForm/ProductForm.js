@@ -1,15 +1,10 @@
 import styles from './ProductForm.module.scss';
-import shortid from 'shortid';
-import clsx from 'clsx';
 import Button from '../Button/Button';
 import OptionSize from '../OptionSize/OptionSize';
+import OptionColor from '../OptionColor/OptionColor';
 
 const ProductForm = ({ handleSubmit, currentSize, sizes, handleButtonClick, colors, currentColor, setCurrentColor }) => {
 
-    // Preparing the class name
-    const prepareColorClassName = color => {
-        return styles['color' + color[0].toUpperCase() + color.substr(1).toLowerCase()];
-    }
 
     return (
         <form onSubmit={handleSubmit}>
@@ -23,15 +18,11 @@ const ProductForm = ({ handleSubmit, currentSize, sizes, handleButtonClick, colo
             </div>
             <div className={styles.colors}>
                 <h3 className={styles.optionLabel}>Colors</h3>
-                <ul className={styles.choices}>
-                    {colors.map(color =>
-                        <li key={shortid.generate()} value={color}>
-                            <button type="button"
-                                className={clsx(prepareColorClassName(color), color === currentColor && styles.active)} value={color} onClick={e => setCurrentColor(e.target.value)} />
-                        </li>
-                    )}
-
-                </ul>
+                <OptionColor
+                    colors={colors}
+                    currentColor={currentColor}
+                    setCurrentColor={setCurrentColor}
+                />
 
             </div>
             <Button className={styles.button}>

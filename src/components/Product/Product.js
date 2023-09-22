@@ -10,8 +10,10 @@ const Product = ({ colors, sizes, name, title, basePrice }) => {
   const [currentColor, setCurrentColor] = useState(colors[0]);
   const [currentSize, setCurrentSize] = useState(sizes[0].name);
   const [currentSizeAdditionalPrice, setCurrentSizeAdditionalPrice] = useState(sizes[0].additionalPrice);
+  const [currentAddToCardSummary, setCurrentAddToCardSummary] = useState('');
+  console.log("Summary", currentAddToCardSummary);
 
-  // Handle button click
+  // Handle button size click
   const handleButtonClick = (index) => {
 
     // Check if index is in the index range of the products array
@@ -26,13 +28,25 @@ const Product = ({ colors, sizes, name, title, basePrice }) => {
     }
   };
 
+  // Summing the basic price with the optional one
   const getPrice = () => {
     return basePrice += currentSizeAdditionalPrice
   }
-
+  // Preparing the class name
   const prepareColorClassName = color => {
     return styles['color' + color[0].toUpperCase() + color.substr(1).toLowerCase()];
   }
+
+  const handleSubmit = e => {
+    e.preventDefault();
+
+    // Creating a summary of the product added to the cart
+    const summary = `Name: ${name} Size: ${currentSize}, Price: ${basePrice}, Color: ${currentColor}`;
+
+    // Update state
+    setCurrentAddToCardSummary((infoSummary) => [...infoSummary, summary]);
+
+  };
 
   return (
     <article className={styles.product}>
@@ -47,7 +61,7 @@ const Product = ({ colors, sizes, name, title, basePrice }) => {
           <h2 className={name}>{title}</h2>
           <span className={styles.price}>Price: {getPrice()}$</span>
         </header>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className={styles.sizes}>
             <h3 className={styles.optionLabel}>{currentSize}</h3>
             <ul className={styles.choices}>

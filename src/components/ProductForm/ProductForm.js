@@ -2,6 +2,7 @@ import styles from './ProductForm.module.scss';
 import shortid from 'shortid';
 import clsx from 'clsx';
 import Button from '../Button/Button';
+import OptionSize from '../OptionSize/OptionSize';
 
 const ProductForm = ({ handleSubmit, currentSize, sizes, handleButtonClick, colors, currentColor, setCurrentColor }) => {
 
@@ -14,19 +15,11 @@ const ProductForm = ({ handleSubmit, currentSize, sizes, handleButtonClick, colo
         <form onSubmit={handleSubmit}>
             <div className={styles.sizes}>
                 <h3 className={styles.optionLabel}>{currentSize}</h3>
-                <ul className={styles.choices}>
-
-                    {sizes.map((size, index) =>
-                        <li key={index} value={size}>
-                            <button type="button"
-                                className={clsx(size.name === currentSize && styles.active)} value={size.name}
-                                //clicking the button, we pass the product index to the handleButtonClick function
-                                onClick={() => handleButtonClick(index)} >
-                                {size.name}
-                            </button>
-                        </li>
-                    )}
-                </ul>
+                <OptionSize
+                    handleButtonClick={handleButtonClick}
+                    sizes={sizes}
+                    currentSize={currentSize}
+                />
             </div>
             <div className={styles.colors}>
                 <h3 className={styles.optionLabel}>Colors</h3>

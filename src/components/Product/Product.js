@@ -1,10 +1,8 @@
 import styles from './Product.module.scss';
-import clsx from 'clsx';
-import Button from '../Button/Button';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import shortid from 'shortid';
 import ProductImage from '../ProductImage/ProductImage';
+import ProductForm from '../ProductForm/ProductForm';
 
 const Product = ({ colors, sizes, name, title, basePrice }) => {
 
@@ -33,10 +31,6 @@ const Product = ({ colors, sizes, name, title, basePrice }) => {
   const getPrice = () => {
     return basePrice += currentSizeAdditionalPrice
   }
-  // Preparing the class name
-  const prepareColorClassName = color => {
-    return styles['color' + color[0].toUpperCase() + color.substr(1).toLowerCase()];
-  }
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -64,40 +58,17 @@ const Product = ({ colors, sizes, name, title, basePrice }) => {
           <h2 className={name}>{title}</h2>
           <span className={styles.price}>Price: {getPrice()}$</span>
         </header>
-        <form onSubmit={handleSubmit}>
-          <div className={styles.sizes}>
-            <h3 className={styles.optionLabel}>{currentSize}</h3>
-            <ul className={styles.choices}>
+        <ProductForm
+          handleSubmit={handleSubmit}
+          currentSize={currentSize}
+          sizes={sizes}
+          handleButtonClick={handleButtonClick}
+          colors={colors}
+          currentColor={currentColor}
+          setCurrentColor={setCurrentColor}
+        />
 
-              {sizes.map((size, index) =>
-                <li key={index} value={size}>
-                  <button type="button"
-                    className={clsx(size.name === currentSize && styles.active)} value={size.name}
-                    //clicking the button, we pass the product index to the handleButtonClick function
-                    onClick={() => handleButtonClick(index)} >
-                    {size.name}
-                  </button>
-                </li>
-              )}
-            </ul>
-          </div>
-          <div className={styles.colors}>
-            <h3 className={styles.optionLabel}>Colors</h3>
-            <ul className={styles.choices}>
-              {colors.map(color =>
-                <li key={shortid.generate()} value={color}>
-                  <button type="button"
-                    className={clsx(prepareColorClassName(color), color === currentColor && styles.active)} value={color} onClick={e => setCurrentColor(e.target.value)} />
-                </li>
-              )}
 
-            </ul>
-
-          </div>
-          <Button className={styles.button}>
-            <span className="fa fa-shopping-cart" />
-          </Button>
-        </form>
       </div>
     </article>
   )

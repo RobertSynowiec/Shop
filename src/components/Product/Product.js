@@ -4,6 +4,7 @@ import Button from '../Button/Button';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import shortid from 'shortid';
+import ProductImage from '../ProductImage/ProductImage';
 
 const Product = ({ colors, sizes, name, title, basePrice }) => {
 
@@ -51,10 +52,12 @@ const Product = ({ colors, sizes, name, title, basePrice }) => {
   return (
     <article className={styles.product}>
       <div className={styles.imageContainer}>
-        <img
-          className={styles.image}
-          alt={title}
-          src={`${process.env.PUBLIC_URL}/images/products/shirt-${name}--${currentColor}.jpg`} />
+        <ProductImage
+          title={title}
+          name={name}
+          currentColor={currentColor}
+
+        />
       </div>
       <div>
         <header>

@@ -1,6 +1,6 @@
 import styles from './Product.module.scss';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import ProductImage from '../ProductImage/ProductImage';
 import ProductForm from '../ProductForm/ProductForm';
 
@@ -10,7 +10,7 @@ const Product = ({ colors, sizes, name, title, basePrice }) => {
   const [currentSize, setCurrentSize] = useState(sizes[0].name);
   const [currentSizeAdditionalPrice, setCurrentSizeAdditionalPrice] = useState(sizes[0].additionalPrice);
   const [currentAddToCardSummary, setCurrentAddToCardSummary] = useState('');
-  console.log("Summary", currentAddToCardSummary);
+  console.log('currentAddToCardSummary', currentAddToCardSummary);
 
   // Handle button size click
   const handleButtonClick = (index) => {
@@ -28,9 +28,9 @@ const Product = ({ colors, sizes, name, title, basePrice }) => {
   };
 
   // Summing the basic price with the optional one
-  const getPrice = () => {
+  const price = useMemo(() => {
     return basePrice += currentSizeAdditionalPrice
-  }
+  }, [currentSize]);
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -56,7 +56,7 @@ const Product = ({ colors, sizes, name, title, basePrice }) => {
       <div>
         <header>
           <h2 className={name}>{title}</h2>
-          <span className={styles.price}>Price: {getPrice()}$</span>
+          <span className={styles.price}>Price: {price}$</span>
         </header>
         <ProductForm
           handleSubmit={handleSubmit}
